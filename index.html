@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quantum Rift</title>
+  <style>
+    body { margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; background: #111; }
+    canvas { border: 2px solid #0ff; }
+  </style>
+</head>
+<body>
+  <canvas id="gameCanvas" width="600" height="600"></canvas>
+  <script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // Game state
+    let level = 1;
+    let particle = { x: 50, y: 50, size: 10 };
+    let goal = { x: 550, y: 550, size: 15 };
+    let rifts = [];
+    let obstacles = [];
+    let gameOver = false;
+
+    // Input handling
+    let keys = { up: false, down: false, left: false, right: false, restart: false };
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowUp') keys.up = true;
+      if (e.key === 'ArrowDown') keys.down = true;
+      if (e.key === 'ArrowLeft') keys.left = true;
+      if (e.key === 'ArrowRight') keys.right = true;
+      if (e.key === 'r' || e.key === 'R') keys.restart = true;
+    });
+
+    document.addEventListener('keyup', (e) => {
+      if (e.key === 'ArrowUp') keys.up = false;
+      if (e.key === 'ArrowDown') keys.down = false;
+      if (e.key === 'ArrowLeft') keys.left = false;
+      if (e.key === 'ArrowRight') keys.right = false;
+      if (e.key === 'r' || e.key === 'R') keys.restart = false;
+    });
+
+    // Initialize level
+    function initLevel() {
+      particle = { x: 50, y: 50, size: 10 };
+      goal = { x: 550, y: 550, size: 15 };
+      rifts = [
+        { x: 200, y: 200, size: 20, link: { x: 400, y: 400 } },
+        { x: 400, y: 400, size: 20, link: { x: 200, y: 200 } }
+      ];
+      obstacles = [];
+      for (let i = 0; i < level; i++) {
+        obstacles.push({
+          x: 100 + Math.random() * 400,
+          y: 100 + Math.random() * 400,
+          size: 20,
+          dx: (Math.random() - 0.5) * 2,
+          dy: (Math.random() - 0.5) * 2
+        });
+      }
+    }
+
+    // Check collision
+    function checkCollision(x1, y1, s1, x2, y2, s2) {
+      return Math.hypot(x1 - x2, y1 - y2) < s1 + s2;
+    }
+
+    // Game loop
+    function gameLoop() {
+      // Update
+      if (!gameOver) {
+        // Move particle
+        const speed = 5;
+        if (keys.up && particle.y - particle.size > 0) particle.y -= speed;
+        if (keys.down && particle.y + particle.size < canvas.height) particle.y += speed;
+        if (keys.left && particle.x - particle.size > 0) particle.x -= speed;
+        if (keys.right && particle.x + particle.size < canvas.width) particle.x += speed;
+
+        // Check rifts
+        for (let rift of rifts) {
+          if (checkCollision(particle.x, particle.y, particle.size, rift.x, rift.y, rift.size)) {
+            particle.x = rift.link.x;
+            particle.y = rift.link.y;
+            break;
+          }
+        }
+
+        // Update obstacles
+        obstacles.forEach(o => {
+          o.x += o.dx;
+          o.y += o.dy;
+          if (o.x < 0 || o.x > canvas.width) o.dx *= -1;
+          if (o.y < 0 || o.y > canvas.height) o.dy *= -1;
+          if (checkCollision(particle.x, particle.y, particle.size, o.x, o.y, o.size)) {
+            initLevel();
+          }
+        });
+
+        // Check goal
+        if (checkCollision(particle.x, particle.y, particle.size, goal.x, goal.y, goal.size)) {
+          level++;
+          initLevel();
+        }
+
+        // Restart level
+        if (keys.restart) {
+          initLevel();
+          keys.restart = false;
+        }
+      }
+
+      // Draw
+      ctx.fillStyle = '#111';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Draw particle
+      ctx.fillStyle = '#0ff';
+      ctx.beginPath();
+      ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Draw goal
+      ctx.fillStyle = '#0f0';
+      ctx.beginPath();
+      ctx.arc(goal.x, goal.y, goal.size, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Draw rifts
+      ctx.fillStyle = '#f0f';
+      rifts.forEach(r => {
+        ctx.beginPath();
+        ctx.arc(r.x, r.y, r.size, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      // Draw obstacles
+      ctx.fillStyle = '#f00';
+      obstacles.forEach(o => {
+        ctx.beginPath();
+        ctx.arc(o.x, o.y, o.size, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      // Draw level
+      ctx.fillStyle = '#fff';
+      ctx.font = '20px Arial';
+      ctx.textAlign = 'left';
+      ctx.fillText(`Level: ${level}`, 10, 30);
+
+      requestAnimationFrame(gameLoop);
+    }
+
+    // Start game
+    initLevel();
+    gameLoop();
+  </script>
+</body>
+</html>

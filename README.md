@@ -2,7 +2,7 @@
 
 Welcome to **Quantum Rift**, a minimalist puzzle-action game built with JavaScript and HTML5 Canvas. Guide a particle through rifts (portals) to reach the goal in each level while dodging moving obstacles. With its sleek design and escalating challenges, Quantum Rift is a unique showcase of my game development skills.
 
-This project is created to demonstrate my passion for coding and creativity. If you enjoy Quantum Rift, please consider supporting my work through [GitHub Sponsors](https://github.com/sponsors/your-username) to help me build more innovative projects!
+This project is created to demonstrate my passion for coding and creativity. If you enjoy Quantum Rift, please consider supporting my work through [GitHub Sponsors](https://github.com/sponsors/ataullamanah) to help me build more innovative projects!
 
 ## 🌌 Gameplay
 

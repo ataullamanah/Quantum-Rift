@@ -42,7 +42,7 @@ This project is created to demonstrate my passion for coding and creativity. If 
 
 ## 🌟 Why Support This Project?
 
-Quantum Rift is a labor of love, designed to highlight my skills in JavaScript and game design. By supporting me on [GitHub Sponsors](https://github.com/sponsors/your-username), you’ll help me:
+Quantum Rift is a labor of love, designed to highlight my skills in JavaScript and game design. By supporting me on [GitHub Sponsors](https://github.com/sponsors/ataullamanah), you’ll help me:
 - Add new features like sound effects, level editor, or leaderboards.
 - Create more unique games and open-source projects.
 - Dedicate time to sharing coding knowledge with the community.
@@ -71,6 +71,6 @@ Contributions are welcome! You can:
 
 ## 📬 Contact
 
-Questions or ideas? Reach out via [GitHub Issues](https://github.com/your-username/quantum-rift/issues) or support me on [GitHub Sponsors](https://github.com/sponsors/your-username).
+Questions or ideas? Reach out via [GitHub Issues](https://github.com/your-username/quantum-rift/issues) or support me on [GitHub Sponsors](https://github.com/sponsors/ataullamanah).
 
 Thank you for playing Quantum Rift and supporting my journey! 🌌
